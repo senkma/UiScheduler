@@ -9,21 +9,22 @@ Universal module for switching schedulers and mutexes
 ## Sources
 Laravel scheduler
 - https://laravel.com/docs/9.x/scheduling
+
 Crunz scheduler
 - https://github.com/crunzphp/crunz
 
 ## Work Process
 1. UiScheduler
 ```bash
-- php artisan uischeduler:run
+php artisan uischeduler:run
 ```
 2. Laravel scheduler
 ```bash
-- php artisan module:list
+php artisan module:list
 ```
 3. CrunzPHP scheduler
 ```bash
-- vendor/bin/crunz schedule:list
+vendor/bin/crunz schedule:list
 ```
 4. Change scheduler, mutex
 - In .env set
@@ -53,7 +54,8 @@ composer require nwidart/laravel-modules="9.*"
 php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"
 php artisan module:make UiScheduler
 ```
-- edit composer.json
+
+edit composer.json
 ```bash
     "autoload": {
        "psr-4": {
