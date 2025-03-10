@@ -1,0 +1,11 @@
+{
+    "name": "UiScheduler",
+    "alias": "uischeduler",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\UiScheduler\\Providers\\UiSchedulerServiceProvider"
+    ],
+    "files": []
+}
