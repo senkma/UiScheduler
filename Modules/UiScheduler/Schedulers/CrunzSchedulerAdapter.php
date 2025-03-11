@@ -5,6 +5,9 @@ namespace Modules\UiScheduler\Schedulers;
 use Crunz\Schedule;
 use Illuminate\Support\Facades\Config;
 use Modules\UiScheduler\Schedulers\ProcessScheduler;
+use Modules\UiScheduler\App\Jobs\ProcessJob;
+use Illuminate\Support\Facades\Log;
+
 
 class CrunzSchedulerAdapter implements SchedulerAdapterInterface
 {
@@ -36,7 +39,7 @@ class CrunzSchedulerAdapter implements SchedulerAdapterInterface
     /**
      * Schedule a single job.
      */
-    public function scheduleJob(Schedule $schedule, array $job): void
+    public function scheduleJob($schedule, array $job): void
     {
          // Prepare Mutex with key
         $mutex = $this->processScheduler->prepareMutex($job); // Prepare Mutex with key
@@ -44,8 +47,10 @@ class CrunzSchedulerAdapter implements SchedulerAdapterInterface
         // Schedule the job with the defined frequency and description        
         $schedule->run(function () use ($mutex, $job) {
             Self::initializationLaravel(); // Laravel Initialization - Facades, Artisan, Config, etc.
-            // Process scheduled jobs and commands
-            ProcessScheduler::processJobs($mutex, $job); // Process scheduled jobs and commands
+            // Dispatch the job to the queue
+            ProcessJob::dispatch($mutex, $job);
+            //ProcessScheduler::processJobs($mutex, $job);
+            Log::info($job['command'] . " job processed to queue.");
         })->cron($job['frequency'])
           ->description($job['description']);
     }

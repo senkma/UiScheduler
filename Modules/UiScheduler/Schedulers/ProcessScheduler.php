@@ -24,8 +24,9 @@ class ProcessScheduler
 
     public function generateMutexKey(array $job): string
     {
+        $key ='mutex_' . md5($job['command'] . $job['frequency']);
         //Generate Mutex key for locking
-        return 'mutex_' . md5($job['command'] . $job['frequency']);
+        return $key;
     }
 
     public function prepareMutex(array $job)
@@ -33,7 +34,7 @@ class ProcessScheduler
         $key = $this->generateMutexKey($job);
         $mutex = $this->mutexFactory->createMutex($key);
         $mutex->key = $key;
-        $mutex->ttl = 3600;
+        $mutex->ttl = 120;
 
         return $mutex;
     }
@@ -42,20 +43,20 @@ class ProcessScheduler
     {
         //Check if is possible generate Mutex 
         if ($mutex->acquire($mutex->key, $mutex->ttl)) {
-            Log::info("Mutex Acquired: " . $job['command']);
-
+            Log::info("-- Mutex Acquired: " . $job['command']);
             try {
+
                 if ($job['type'] === 'command') {
+                    Log::info("[QUEUE JOB RUN]");
                     Artisan::call($job['command']);
-                } elseif ($job['type'] === 'exec') {
-                    shell_exec($job['command']);
+
                 }
             } finally {
                 $mutex->release($mutex->key);
-                Log::info("Mutex Released: " . $job['command']);
+                Log::info("-- Mutex Released: " . $job['command']);
             }
         } else {
-            Log::info("Mutex Locked - SKIP: " . $job['command']);
+            Log::info("-- Mutex Locked - SKIP: " . $job['command']);
         }
     }
 

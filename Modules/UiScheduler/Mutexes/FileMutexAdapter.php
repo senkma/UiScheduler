@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class FileMutexAdapter implements MutexAdapterInterface
 {
     private $lock;
-    private $key;
+
 
     /**
      * Acquire a cache lock.
@@ -30,7 +30,7 @@ class FileMutexAdapter implements MutexAdapterInterface
      *
      * @return bool
      */
-    public function release(): bool
+    public function release($key): bool
     {
         // Release the lock with the given key
         $lock = $this->lock;

@@ -38,8 +38,8 @@ return [
 
     'redis' => [
         'scheme' => env('UISCHEDULER_REDIS_SCHEME', 'tcp'),
-        'host' => env('UISCHEDULER_REDIS_HOST', '127.0.0.1'),
-        'port' => env('UISCHEDULER_REDIS_PORT', 6379),
+        'host' => env('REDIS_HOST', '127.0.0.1'),
+        'port' => env('REDIS_PORT', 6379),
     ],
 
 ];

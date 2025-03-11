@@ -28,22 +28,23 @@ return [
     ],
     [
         'type' => 'command',
-        'command' => 'job:run LogMessageSleep80', 
+        'command' => 'job:run LogMessageSleep', 
         'frequency' => '* * * * *',
-        'description' => 'LogMessageSleep80'
+        'description' => 'LogMessageSleep'
     ],
-    [
-        'type' => 'exec',
-        'command' => 'echo "ExecCommand/2 >  DONE" >> /var/www/html/uischeduler/storage/logs/laravel.log', 
+    [ 
+        'type' => 'command',
+        'command' => 'job:run LogMessage', 
         'frequency' => '*/2 * * * *',
-        'description' => 'ExecCommand/2'
+        'description' => 'LogMessage'
     ],
-    [
-        'type' => 'exec',
-        'command' => 'echo "ExecCommand/3 >  DONE" >> /var/www/html/uischeduler/storage/logs/laravel.log', 
+    [ 
+        'type' => 'command',
+        'command' => 'job:run LogMessage', 
         'frequency' => '*/3 * * * *',
-        'description' => 'ExecCommand/3'
+        'description' => 'LogMessage'
     ],
+
 
 ];
 

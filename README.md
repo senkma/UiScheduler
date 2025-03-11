@@ -5,6 +5,7 @@ Universal module for switching schedulers and mutexes
 ## Features
 - Schedule crons/jobs using Crunz or Laravel Scheduler.
 - Mutex File or Redis
+- Supervisor queues
 
 ## Sources
 Laravel scheduler
@@ -106,6 +107,22 @@ UISCHEDULER_MUTEX=redis #file, redis
 UISCHEDULER_REDIS_SCHEME=tcp
 UISCHEDULER_REDIS_HOST=127.0.0.1
 UISCHEDULER_REDIS_PORT=6379
+```
+
+6. Supervisor /etc/supervisor/conf.d/queue-worker.conf
+```bash
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /cesta-k-aplikaci/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=user
+numprocs=1
+redirect_stderr=true
+stdout_logfile
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*
 ```
         
 ## Debug

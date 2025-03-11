@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 use Modules\UiScheduler\Schedulers\ProcessScheduler;
+use Modules\UiScheduler\App\Jobs\ProcessJob;
+
 
 class LaravelSchedulerAdapter implements SchedulerAdapterInterface
 {
@@ -35,15 +37,17 @@ class LaravelSchedulerAdapter implements SchedulerAdapterInterface
     /**
      * Schedule a single job.
      */
-    public function scheduleJob(Schedule $schedule, array $job): void
+    public function scheduleJob($schedule, array $job): void
     {
         // Prepare Mutex with key
         $mutex = $this->processScheduler->prepareMutex($job);
         
         // Schedule the job with the defined frequency and description
         $schedule->call(function() use ($mutex, $job) {
-            // Process scheduled jobs and commands
-            ProcessScheduler::processJobs($mutex, $job);
+            // Dispatch the job to the queue
+            ProcessJob::dispatch($mutex, $job);           
+         //   ProcessScheduler::processJobs($mutex, $job);
+         Log::info($job['command'] . " job processed to queue.");
         })->cron($job['frequency'])
           ->description($job['description']);
     }

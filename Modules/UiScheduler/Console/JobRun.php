@@ -24,11 +24,12 @@ class JobRun extends Command
         // Check class exists
         if (class_exists($jobClass)) {
             try {
-                // Call Job
+                // Instantiate and run the job directly
                 $jobInstance = app($jobClass);
-                $jobInstance::dispatch();
+                $jobInstance->handle();
+                Log::info("Job {$jobName} executed successfully.");
             } catch (\Exception $e) {
-                Log::error("Job {$jobName} failed to dispatch. Error: " . $e->getMessage());
+                Log::error("Job {$jobName} failed to execute. Error: " . $e->getMessage());
             }
         } else {
             Log::error("Job {$jobName} was not found.");

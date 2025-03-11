@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Jobs;
+namespace Modules\UiScheduler\App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+use Modules\UiScheduler\Schedulers\ProcessScheduler;
 
-class LogMessageSleep80 implements ShouldQueue
+class ProcessJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $mutex;
+    protected $queuejob;
+
     /**
-     * Create a new job.
+     * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mutex, $queuejob)
     {
-        //
+        $this->mutex = $mutex;
+        $this->queuejob = $queuejob;
     }
 
     /**
@@ -31,9 +34,6 @@ class LogMessageSleep80 implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('LogMmessageSleep80 > Sleep 80 START');
-        Sleep(80);
-        Log::info('LogMmessageSleep80 > Sleep 80 DONE');
-        Log::info('LogMmessageSleep80 > job DONE');
+        ProcessScheduler::processJobs($this->mutex, $this->queuejob);
     }
 }

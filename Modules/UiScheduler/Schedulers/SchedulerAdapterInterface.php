@@ -14,15 +14,14 @@ interface SchedulerAdapterInterface
      */
     public function schedule($schedule = null);
 
-    /**
+ /**
      * Runs the scheduler.
      *
-     * @param Schedule $schedule
+     * @param mixed $schedule
      * @param array $job
      * @return void
      */
-    public function scheduleJob(Schedule $schedule, array $job): void;
-
+    public function scheduleJob($schedule, array $job): void;
     /**
      * Runs the scheduler.
      *

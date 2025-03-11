@@ -20,10 +20,12 @@ class SchedulerFactory
     {  
         // Get the scheduler type from the configuration
         $schedulerType = Self::getSchedulerType();
+        $mutexType = Self::getMutexType();
 
         // Log the start of the scheduler run
         Log::info('----------------------------------------------------------------------------------------------');
         Log::info($schedulerType . ' scheduler - START.');
+        Log::info($mutexType . ' mutex.');
 
         // Execute the appropriate scheduler based on the type
         switch ($schedulerType) {
@@ -54,5 +56,11 @@ class SchedulerFactory
         // Retrieve the scheduler type from the configuration file
         $schedulerType = config('uischeduler_config.scheduler');
         return $schedulerType;       
+    }
+    public static function getMutexType()
+    {
+        // Retrieve the scheduler type from the configuration file
+        $mutexType = config('uischeduler_config.mutex');
+        return $mutexType;       
     }
 }
