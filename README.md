@@ -26,22 +26,15 @@ php artisan module:list
 ```bash
 vendor/bin/crunz schedule:list
 ```
-4. Change scheduler, mutex
-- In .env set
+4. Change scheduler, mutex - In .env set
 ```bash
 #UiScheduler
 UISCHEDULER_SCHEDULER=laravel #laravel, crunz
 UISCHEDULER_MUTEX=redis #file, redis
-UISCHEDULER_REDIS_SCHEME=tcp
-UISCHEDULER_REDIS_HOST=127.0.0.1
-UISCHEDULER_REDIS_PORT=6379
 ```
-5. Set new jobs
-- app/Jobs
-6. Configure cron/jobs
-- config/uischeduler_config.php
-7. Check logs
-- /storage/logs/laravel.log
+5. Set new jobs in app/Jobs
+6. Configure cron/jobs in config/uischeduler_config.php
+7. Check logs in- /storage/logs/laravel.log
 
 ## Installation
 1. Prerequisites / Make new from scratch:
