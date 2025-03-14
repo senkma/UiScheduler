@@ -1,0 +1,7 @@
+{
+    "require": {
+        "nwidart/laravel-modules": "9.*",
+        "crunzphp/crunz": "^3.8",
+        "predis/predis": "^2.3"
+    }
+}
